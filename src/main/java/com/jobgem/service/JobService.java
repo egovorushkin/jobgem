@@ -2,8 +2,8 @@ package com.jobgem.service;
 
 import com.jobgem.dto.JobDTO;
 import com.jobgem.entity.JobEntity;
+import com.jobgem.entity.JobType;
 import com.jobgem.repository.JobRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +19,8 @@ public class JobService {
     }
 
     public List<JobDTO> getAllJobs() {
-        return jobRepository.findAll().stream()
+        List<JobEntity> all = jobRepository.findAll();
+        return all.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
@@ -39,6 +40,8 @@ public class JobService {
         jobRepository.deleteById(id);
     }
 
+    // TODO: Refactor: replace with mapper
+
     private JobDTO convertToDTO(JobEntity jobEntity) {
         JobDTO dto = new JobDTO();
         dto.setId(jobEntity.getId());
@@ -46,8 +49,10 @@ public class JobService {
         dto.setCompany(jobEntity.getCompany());
         dto.setLocation(jobEntity.getLocation());
         dto.setDescription(jobEntity.getDescription());
-        dto.setEmploymentType(jobEntity.getEmploymentType());
         dto.setSalary(jobEntity.getSalary());
+        dto.setType(jobEntity.getType().name());
+        dto.setLevel(jobEntity.getLevel());
+        dto.setPostedDate(jobEntity.getPostedDate());
         return dto;
     }
 
@@ -58,8 +63,10 @@ public class JobService {
         entity.setCompany(jobDTO.getCompany());
         entity.setLocation(jobDTO.getLocation());
         entity.setDescription(jobDTO.getDescription());
-        entity.setEmploymentType(jobDTO.getEmploymentType());
+        entity.setType(JobType.valueOf(jobDTO.getType()));
         entity.setSalary(jobDTO.getSalary());
+        entity.setLevel(jobDTO.getLevel());
+        entity.setPostedDate(jobDTO.getPostedDate());
         return entity;
     }
 }

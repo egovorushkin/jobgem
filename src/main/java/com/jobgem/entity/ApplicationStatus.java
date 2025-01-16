@@ -1,7 +1,7 @@
 package com.jobgem.entity;
 
 public enum ApplicationStatus {
-    SUBMITTED,
+    APPLIED,
     UNDER_REVIEW,
     INTERVIEW_SCHEDULED,
     REJECTED,

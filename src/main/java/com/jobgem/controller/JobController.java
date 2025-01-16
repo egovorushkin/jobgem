@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/jobs")
+@RequestMapping("/api/v1/jobs")
 public class JobController {
 
     private final JobService jobService;
@@ -29,7 +29,12 @@ public class JobController {
 
     @PostMapping
     public ResponseEntity<JobDTO> createJob(@RequestBody JobDTO jobDTO) {
-        return ResponseEntity.ok(jobService.saveJob(jobDTO));
+        return ResponseEntity.ok(jobService.createJob(jobDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<JobDTO> updateJob(@PathVariable Long id, @RequestBody JobDTO jobDTO) {
+        return ResponseEntity.ok(jobService.updateJob(id, jobDTO));
     }
 
     @DeleteMapping("/{id}")

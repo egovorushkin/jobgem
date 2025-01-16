@@ -2,6 +2,7 @@ package com.jobgem.service;
 
 import com.jobgem.dto.UserDTO;
 import com.jobgem.entity.UserEntity;
+import com.jobgem.exception.ResourceNotFoundException;
 import com.jobgem.mapper.UserMapper;
 import com.jobgem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class UserService {
     public UserDTO getUserById(Long id) {
         return userRepository.findById(id)
                 .map(userMapper::userToUserDTO)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     public UserDTO createUser(UserDTO userDTO) {
@@ -41,7 +42,7 @@ public class UserService {
 
     public UserDTO updateUser(Long id, UserDTO userDTO) {
         UserEntity user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());

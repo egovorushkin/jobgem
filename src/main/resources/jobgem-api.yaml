@@ -1,0 +1,190 @@
+openapi: 3.0.3
+info:
+  title: JobGem API
+  version: 1.0.0
+  description: API for jobgem application
+  contact:
+    email: e.govorushkin@gmail.com
+servers:
+ - url: http://localhost:8888
+   description: local development environment
+tags:
+  - name: job
+    description: Retrieving and creating job
+paths:
+  /api/v1/jobs:
+    get:
+      tags:
+        - job
+      summary: "Get all jobs"
+      operationId: "getAllJobs"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Job'
+    post:
+      tags:
+        - job
+      summary: Create a new job
+      operationId: createJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+
+  /api/v1/jobs/{jobId}:
+    get:
+      tags:
+        - job
+      summary: Get a job by ID
+      operationId: getJobById
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+    put:
+      tags:
+        - job
+      summary: Patch job
+      operationId: patchJob
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobUpdate'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+    delete:
+      tags:
+        - job
+      summary: Delete a job
+      operationId: deleteJob
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Successful operation
+
+components:
+  schemas:
+    Job:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        companyId:
+          type: integer
+        salaryMin:
+          type: number
+        salaryMax:
+          type: number
+        postDate:
+          type: string
+          format: date
+        expirationDate:
+          type: string
+          format: date
+        jobType:
+          type: string
+          enum: [FULL_TIME, PART_TIME, CONTRACT, INTERNSHIP, REMOTE]
+        location:
+          type: string
+
+    JobCreate:
+      type: object
+      required:
+        - title
+        - description
+        - companyId
+        - jobType
+        - location
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        companyId:
+          type: integer
+        salaryMin:
+          type: number
+        salaryMax:
+          type: number
+        postDate:
+          type: string
+          format: date
+        expirationDate:
+          type: string
+          format: date
+        jobType:
+          type: string
+          enum: [FULL_TIME, PART_TIME, CONTRACT, INTERNSHIP, REMOTE]
+        location:
+          type: string
+
+    JobUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        companyId:
+          type: integer
+        salaryMin:
+          type: number
+        salaryMax:
+          type: number
+        postDate:
+          type: string
+          format: date
+        expirationDate:
+          type: string
+          format: date
+        jobType:
+          type: string
+          enum: [FULL_TIME, PART_TIME, CONTRACT, INTERNSHIP, REMOTE]
+        location:
+          type: string

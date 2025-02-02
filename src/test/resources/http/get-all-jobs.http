@@ -1,0 +1,14 @@
+### Request Access Token
+POST {{signIn_endpoint}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "usernameOrEmail" : "{{usernameOrEmail}}",
+  "password": "{{password}}"
+}
+
+> {% client.global.set("jobgem_access_token", response.body.accessToken); %}
+
+### Get Inventory Data
+GET {{base_path_jobgem}}/api/v1/jobs
+Authorization: Bearer {{jobgem_access_token}}

@@ -9,6 +9,6 @@ Content-Type: application/json
 
 > {% client.global.set("jobgem_access_token", response.body.accessToken); %}
 
-### Get Inventory Data
+### Get Job by Id
 GET {{base_path_jobgem}}/api/v1/jobs/1
 Authorization: Bearer {{jobgem_access_token}}

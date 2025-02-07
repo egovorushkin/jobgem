@@ -9,6 +9,12 @@ Content-Type: application/json
 
 > {% client.global.set("jobgem_access_token", response.body.accessToken); %}
 
-### Get All Jobs
-GET {{base_path_jobgem}}/api/v1/jobs
+### Update Job
+PUT {{base_path_jobgem}}/api/v1/jobs/7
+Content-Type: application/json
 Authorization: Bearer {{jobgem_access_token}}
+
+{
+  "title": "Scala Software Engineer",
+  "description": "We are looking for a talented software engineer..."
+}

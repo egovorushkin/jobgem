@@ -9,6 +9,6 @@ Content-Type: application/json
 
 > {% client.global.set("jobgem_access_token", response.body.accessToken); %}
 
-### Get All Jobs
-GET {{base_path_jobgem}}/api/v1/jobs
+### Delete Job
+DELETE {{base_path_jobgem}}/api/v1/jobs/7
 Authorization: Bearer {{jobgem_access_token}}

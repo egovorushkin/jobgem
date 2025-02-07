@@ -1,0 +1,25 @@
+### Request Access Token
+POST {{signIn_endpoint}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "usernameOrEmail" : "{{usernameOrEmail}}",
+  "password": "{{password}}"
+}
+
+> {% client.global.set("jobgem_access_token", response.body.accessToken); %}
+
+### Create Job
+POST {{base_path_jobgem}}/api/v1/jobs
+Content-Type: application/json
+Authorization: Bearer {{jobgem_access_token}}
+
+{
+  "title": "React Developer",
+  "description": "We are looking for a talented FE developer...",
+  "companyId": 1,
+  "salaryMin": 50000,
+  "salaryMax": 100000,
+  "jobType": "full_time",
+  "location": "New York, NY"
+}

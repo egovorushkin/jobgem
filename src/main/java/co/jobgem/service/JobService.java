@@ -2,7 +2,7 @@ package co.jobgem.service;
 
 import co.jobgem.domain.jobgem.model.JobDTO;
 import co.jobgem.domain.jobgem.model.JobInputDTO;
-import co.jobgem.entity.CompanyEntity;
+import co.jobgem.entity.Company;
 import co.jobgem.entity.Job;
 import co.jobgem.exception.CompanyNotFoundException;
 import co.jobgem.exception.JobNotFoundException;
@@ -44,14 +44,14 @@ public class JobService {
     public JobDTO createJob(JobInputDTO jobInputDTO) {
         Job jobCreate = jobMapper.toJob(jobInputDTO);
         if (jobInputDTO.getCompanyId() != null) {
-            CompanyEntity jobCompany = companyRepository.findById(jobInputDTO.getCompanyId())
+            Company jobCompany = companyRepository.findById(jobInputDTO.getCompanyId())
                     .orElseThrow(() -> new CompanyNotFoundException("Company with id: " + jobInputDTO.getCompanyId() + " not found"));
             jobCreate.setCompany(jobCompany);
 
         }
         // TODO add:
         //  expirationDate
-        
+
         jobCreate.setPostDate(LocalDate.now());
         Job savedJob = jobRepository.save(jobCreate);
         return jobMapper.toJobDTO(savedJob);

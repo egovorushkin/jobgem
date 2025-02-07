@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "companies")
-public class CompanyEntity {
+public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,17 +28,17 @@ public class CompanyEntity {
     @OneToMany(mappedBy = "company")
     private Set<Job> jobs;
 
-    public CompanyEntity(Long id) {
+    public Company(Long id) {
         this.id = id;
     }
 
-    public CompanyEntity(Long id,
-                         String name,
-                         String description,
-                         String websiteUrl,
-                         String logoUrl,
-                         Double rating,
-                         Set<Job> jobs) {
+    public Company(Long id,
+                   String name,
+                   String description,
+                   String websiteUrl,
+                   String logoUrl,
+                   Double rating,
+                   Set<Job> jobs) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -48,7 +48,7 @@ public class CompanyEntity {
         this.jobs = jobs;
     }
 
-    public CompanyEntity() {
+    public Company() {
 
     }
 

@@ -22,7 +22,7 @@ public class Job {
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
-    private CompanyEntity company;
+    private Company company;
 
     @Column(name = "salary_min")
     private BigDecimal salaryMin;
@@ -64,7 +64,7 @@ public class Job {
     public Job(Long id,
                String title,
                String description,
-               CompanyEntity company,
+               Company company,
                BigDecimal salaryMin,
                BigDecimal salaryMax,
                LocalDate postDate,
@@ -117,11 +117,11 @@ public class Job {
         this.description = description;
     }
 
-    public CompanyEntity getCompany() {
+    public Company getCompany() {
         return company;
     }
 
-    public void setCompany(CompanyEntity company) {
+    public void setCompany(Company company) {
         this.company = company;
     }
 

@@ -6,8 +6,8 @@ info:
   contact:
     email: e.govorushkin@gmail.com
 servers:
- - url: http://localhost:8888/api/v1
-   description: local development environment
+  - url: http://localhost:8888/api/v1
+    description: local development environment
 tags:
   - name: job
     description: Retrieving and creating job
@@ -16,10 +16,10 @@ paths:
     get:
       tags:
         - job
-      summary: "Get all jobs"
-      operationId: "getAllJobs"
+      summary: Get all jobs
+      operationId: getAllJobs
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       responses:
         '200':
           description: Successful operation
@@ -108,7 +108,101 @@ paths:
       responses:
         '204':
           description: Successful operation
-
+  /companies:
+    get:
+      tags:
+        - company
+      summary: Get all companies
+      operationId: getAllCompanies
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyDTO'
+    post:
+      tags:
+        - company
+      summary: Create a new company
+      operationId: createCompany
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyInputDTO'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyDTO'
+  /companies/{companyId}:
+    get:
+      tags:
+        - company
+      summary: Get a company by ID
+      operationId: getCompanyById
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyDTO'
+    put:
+      tags:
+        - company
+      summary: Patch company
+      operationId: patchCompany
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyInputDTO'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyDTO'
+    delete:
+      tags:
+        - company
+      summary: Delete a company
+      operationId: deleteCompany
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
 components:
   securitySchemes:
     bearerAuth:
@@ -139,6 +233,24 @@ components:
           $ref: '#/components/schemas/JobType'
         location:
           type: string
+    CompanyDTO:
+      type: object
+      description: Data Transfer Object (DTO) for API responses
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        websiteUrl:
+          type: string
+        logoUrl:
+          type: string
+        rating:
+          type: string
+          format: double
     JobInputDTO:
       type: object
       description: DTO for create and update operations (excludes read-only fields)
@@ -164,6 +276,21 @@ components:
           $ref: '#/components/schemas/JobType'
         location:
           type: string
+    CompanyInputDTO:
+      type: object
+      description: DTO for create and update operations (excludes read-only fields)
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        websiteUrl:
+          type: string
+        logoUrl:
+          type: string
+        rating:
+          type: number
+          format: double
     JobType:
       type: string
       enum:

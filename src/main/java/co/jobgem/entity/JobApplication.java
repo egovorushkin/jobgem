@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "job_applications")
-public class JobApplicationEntity {
+public class JobApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,17 +32,17 @@ public class JobApplicationEntity {
     @Column(name = "cover_letter", length = 2000)
     private String coverLetter;
 
-    public JobApplicationEntity(Long id) {
+    public JobApplication(Long id) {
         this.id = id;
     }
 
-    public JobApplicationEntity(Long id,
-                                UserEntity user,
-                                Job job,
-                                ResumeEntity resume,
-                                LocalDateTime applicationDate,
-                                ApplicationStatus status,
-                                String coverLetter) {
+    public JobApplication(Long id,
+                          UserEntity user,
+                          Job job,
+                          ResumeEntity resume,
+                          LocalDateTime applicationDate,
+                          ApplicationStatus status,
+                          String coverLetter) {
         this.id = id;
         this.user = user;
         this.job = job;
@@ -52,7 +52,7 @@ public class JobApplicationEntity {
         this.coverLetter = coverLetter;
     }
 
-    public JobApplicationEntity() {
+    public JobApplication() {
 
     }
 

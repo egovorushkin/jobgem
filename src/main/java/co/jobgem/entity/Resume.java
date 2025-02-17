@@ -1,29 +1,53 @@
-package co.jobgem.dto;
+package co.jobgem.entity;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-public class ResumeDTO {
+@Entity
+@Table(name = "resumes")
+public class Resume {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long userId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(name = "file_url", nullable = false)
     private String fileUrl;
+
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Constructors
-    public ResumeDTO() {
+    public Resume(Long id) {
+        this.id = id;
     }
 
-    public ResumeDTO(Long id, Long userId, String title, String fileUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Resume(Long id,
+                  UserEntity user,
+                  String title,
+                  String fileUrl,
+                  LocalDateTime createdAt,
+                  LocalDateTime updatedAt) {
         this.id = id;
-        this.userId = userId;
+        this.user = user;
         this.title = title;
         this.fileUrl = fileUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    // Getters and setters
+    public Resume() {
+
+    }
+
     public Long getId() {
         return id;
     }
@@ -32,12 +56,12 @@ public class ResumeDTO {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public String getTitle() {

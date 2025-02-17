@@ -238,7 +238,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JobApplicationDTO'
-
   /job-applications/{jobApplicationId}:
     get:
       tags:
@@ -299,6 +298,101 @@ paths:
       responses:
         '204':
           description: Successful operation
+  /resumes:
+    get:
+      tags:
+        - resume
+      summary: Get all resumes
+      operationId: getAllResumes
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResumeDTO'
+    post:
+      tags:
+        - resume
+      summary: Create a new resume
+      operationId: createResume
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResumeInputDTO'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResumeDTO'
+  /resumes/{resumeId}:
+    get:
+      tags:
+        - resume
+      summary: Get a resume by ID
+      operationId: getResumeById
+      parameters:
+        - name: resumeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResumeDTO'
+    put:
+      tags:
+        - resume
+      summary: Patch resume
+      operationId: patchResume
+      parameters:
+        - name: resumeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResumeInputDTO'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResumeDTO'
+    delete:
+      tags:
+        - resume
+      summary: Delete a resume
+      operationId: deleteResume
+      parameters:
+        - name: resumeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
 components:
   securitySchemes:
     bearerAuth:
@@ -329,6 +423,24 @@ components:
           $ref: '#/components/schemas/JobType'
         location:
           type: string
+    CompanyDTO:
+      type: object
+      description: Data Transfer Object (DTO) for API responses
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        websiteUrl:
+          type: string
+        logoUrl:
+          type: string
+        rating:
+          type: string
+          format: double
     JobApplicationDTO:
       type: object
       description: Data Transfer Object (DTO) for API responses
@@ -355,46 +467,28 @@ components:
           type: string
         coverLetter:
           type: string
-    JobApplicationInputDTO:
-      type: object
-      description: DTO for create and update operations
-      properties:
-        userId:
-          type: integer
-          format: int64
-          nullable: false
-        jobId:
-          type: integer
-          format: int64
-          nullable: false
-        resumeId:
-          type: integer
-          format: int64
-        applicationDate:
-          type: string
-          format: date-time
-        status:
-          type: string
-        coverLetter:
-          type: string
-    CompanyDTO:
+    ResumeDTO:
       type: object
       description: Data Transfer Object (DTO) for API responses
       properties:
         id:
           type: integer
           format: int64
-        name:
+          nullable: false
+        userId:
+          type: integer
+          format: int64
+          nullable: false
+        title:
           type: string
-        description:
+        fileUrl:
           type: string
-        websiteUrl:
+        createdAt:
           type: string
-        logoUrl:
+          format: date-time
+        updatedAt:
           type: string
-        rating:
-          type: string
-          format: double
+          format: date-time
     JobInputDTO:
       type: object
       description: DTO for create and update operations
@@ -435,6 +529,40 @@ components:
         rating:
           type: number
           format: double
+    JobApplicationInputDTO:
+      type: object
+      description: DTO for create and update operations
+      properties:
+        userId:
+          type: integer
+          format: int64
+          nullable: false
+        jobId:
+          type: integer
+          format: int64
+          nullable: false
+        resumeId:
+          type: integer
+          format: int64
+        applicationDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+        coverLetter:
+          type: string
+    ResumeInputDTO:
+      type: object
+      description: DTO for create and update operations
+      properties:
+        userId:
+          type: integer
+          format: int64
+          nullable: false
+        title:
+          type: string
+        fileUrl:
+          type: string
     JobType:
       type: string
       enum:

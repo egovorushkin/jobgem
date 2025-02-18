@@ -14,11 +14,8 @@ public interface JobMapper {
 
     JobMapper INSTANCE = Mappers.getMapper(JobMapper.class);
 
-//    @Mapping(source = "company.id", target = "companyId")
-//    @Mapping(source = "company.name", target = "companyName")
     JobDTO toJobDTO(Job job);
 
-//    @Mapping(source = "companyId", target = "company.id")
     Job toJob(JobInputDTO jobInputDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -52,7 +52,7 @@ public class Job {
     private Set<Skill> requiredSkills;
 
     @OneToMany(mappedBy = "job")
-    private Set<JobApplicationEntity> applications;
+    private Set<JobApplication> applications;
 
     @OneToMany(mappedBy = "job")
     private Set<SavedJob> savedBy;
@@ -72,7 +72,7 @@ public class Job {
                JobType jobType,
                String location,
                Set<Skill> requiredSkills,
-               Set<JobApplicationEntity> applications,
+               Set<JobApplication> applications,
                Set<SavedJob> savedBy) {
         this.id = id;
         this.title = title;
@@ -181,11 +181,11 @@ public class Job {
         this.requiredSkills = requiredSkills;
     }
 
-    public Set<JobApplicationEntity> getApplications() {
+    public Set<JobApplication> getApplications() {
         return applications;
     }
 
-    public void setApplications(Set<JobApplicationEntity> applications) {
+    public void setApplications(Set<JobApplication> applications) {
         this.applications = applications;
     }
 

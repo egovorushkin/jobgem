@@ -60,7 +60,7 @@ public class JobApplicationService {
         }
 
         if (jobApplicationInputDTO.getResumeId() != null) {
-            ResumeEntity resume = resumeRepository.findById(jobApplicationInputDTO.getResumeId())
+            Resume resume = resumeRepository.findById(jobApplicationInputDTO.getResumeId())
                     .orElseThrow(() -> new ResumeNotFoundException("Resume with id: " + jobApplicationInputDTO.getResumeId() + " not found"));
             jobApplication.setResume(resume);
         }

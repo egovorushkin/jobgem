@@ -20,7 +20,7 @@ public class JobApplication {
 
     @ManyToOne
     @JoinColumn(name = "resume_id", nullable = false)
-    private ResumeEntity resume;
+    private Resume resume;
 
     @Column(name = "application_date", nullable = false)
     private LocalDateTime applicationDate;
@@ -39,7 +39,7 @@ public class JobApplication {
     public JobApplication(Long id,
                           UserEntity user,
                           Job job,
-                          ResumeEntity resume,
+                          Resume resume,
                           LocalDateTime applicationDate,
                           ApplicationStatus status,
                           String coverLetter) {
@@ -80,11 +80,11 @@ public class JobApplication {
         this.job = job;
     }
 
-    public ResumeEntity getResume() {
+    public Resume getResume() {
         return resume;
     }
 
-    public void setResume(ResumeEntity resume) {
+    public void setResume(Resume resume) {
         this.resume = resume;
     }
 

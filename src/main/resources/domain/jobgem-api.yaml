@@ -393,6 +393,102 @@ paths:
       responses:
         '204':
           description: Successful operation
+  /saved-jobs:
+    get:
+      tags:
+        - savedJob
+      summary: Get all saved jobs
+      operationId: getAllSavedJobs
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SavedJobDTO'
+    post:
+      tags:
+        - savedJob
+      summary: Create a new saved job
+      operationId: createSavedJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavedJobInputDTO'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedJobDTO'
+
+  /saved-jobs/{savedJobId}:
+    get:
+      tags:
+        - savedJob
+      summary: Get a saved job by ID
+      operationId: getSavedJobById
+      parameters:
+        - name: savedJobId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedJobDTO'
+    put:
+      tags:
+        - savedJob
+      summary: Patch job
+      operationId: patchSavedJob
+      parameters:
+        - name: savedJobId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavedJobInputDTO'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedJobDTO'
+    delete:
+      tags:
+        - savedJob
+      summary: Delete a saved job
+      operationId: deleteSavedJob
+      parameters:
+        - name: savedJobId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
 components:
   securitySchemes:
     bearerAuth:
@@ -489,6 +585,24 @@ components:
         updatedAt:
           type: string
           format: date-time
+    SavedJobDTO:
+      type: object
+      description: Data Transfer Object (DTO) for API responses
+      properties:
+        id:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+          nullable: false
+        jobId:
+          type: integer
+          format: int64
+          nullable: false
+        savedAt:
+          type: string
+          format: date-time
     JobInputDTO:
       type: object
       description: DTO for create and update operations
@@ -563,6 +677,21 @@ components:
           type: string
         fileUrl:
           type: string
+    SavedJobInputDTO:
+      type: object
+      description: DTO for create and update operations
+      properties:
+        userId:
+          type: integer
+          format: int64
+          nullable: false
+        jobId:
+          type: integer
+          format: int64
+          nullable: false
+        savedAt:
+          type: string
+          format: date-time
     JobType:
       type: string
       enum:

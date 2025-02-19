@@ -489,6 +489,101 @@ paths:
       responses:
         '204':
           description: Successful operation
+  /skills:
+    get:
+      tags:
+        - skill
+      summary: Get all skills
+      operationId: getAllSkills
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SkillDTO'
+    post:
+      tags:
+        - skill
+      summary: Create a new skill
+      operationId: createSkill
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkillInputDTO'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkillDTO'
+  /skills/{skillId}:
+    get:
+      tags:
+        - skill
+      summary: Get a skill by ID
+      operationId: getSkillById
+      parameters:
+        - name: skillId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkillDTO'
+    put:
+      tags:
+        - skill
+      summary: Patch skill
+      operationId: patchSkill
+      parameters:
+        - name: skillId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkillInputDTO'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkillDTO'
+    delete:
+      tags:
+        - skill
+      summary: Delete skill
+      operationId: deleteSkill
+      parameters:
+        - name: skillId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
 components:
   securitySchemes:
     bearerAuth:
@@ -603,6 +698,15 @@ components:
         savedAt:
           type: string
           format: date-time
+    SkillDTO:
+      type: object
+      description: Data Transfer Object (DTO) for API responses
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
     JobInputDTO:
       type: object
       description: DTO for create and update operations
@@ -692,6 +796,12 @@ components:
         savedAt:
           type: string
           format: date-time
+    SkillInputDTO:
+      type: object
+      description: DTO for create and update operations
+      properties:
+        name:
+          type: string
     JobType:
       type: string
       enum:

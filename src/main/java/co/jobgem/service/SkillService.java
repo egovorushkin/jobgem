@@ -1,7 +1,9 @@
 package co.jobgem.service;
 
-import co.jobgem.dto.SkillDTO;
+import co.jobgem.domain.jobgem.model.SkillDTO;
+import co.jobgem.domain.jobgem.model.SkillInputDTO;
 import co.jobgem.entity.Skill;
+import co.jobgem.exception.SkillJobNotFoundException;
 import co.jobgem.mapper.SkillMapper;
 import co.jobgem.repository.SkillRepository;
 import org.springframework.stereotype.Service;
@@ -12,39 +14,37 @@ import java.util.List;
 public class SkillService {
 
     private final SkillRepository skillRepository;
-    private final SkillMapper skillMapper;
+    private static final SkillMapper skillMapper = SkillMapper.INSTANCE;
 
-    public SkillService(SkillRepository skillRepository, SkillMapper skillMapper) {
+    public SkillService(SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
-        this.skillMapper = skillMapper;
     }
 
     public List<SkillDTO> getAllSkills() {
         return skillRepository.findAll().stream()
-                .map(skillMapper::skillToSkillDTO)
+                .map(skillMapper::toSkillDTO)
                 .toList();
     }
 
     public SkillDTO getSkillById(Long id) {
         return skillRepository.findById(id)
-                .map(skillMapper::skillToSkillDTO)
-                .orElseThrow(() -> new RuntimeException("Skill not found"));
+                .map(skillMapper::toSkillDTO)
+                .orElseThrow(() -> new SkillJobNotFoundException("Skill with id: " + id + " not found"));
     }
 
-    public SkillDTO createSkill(SkillDTO skillDTO) {
-        Skill skill = skillMapper.skillDTOToSkill(skillDTO);
+    public SkillDTO createSkill(SkillInputDTO skillInputDTO) {
+        Skill skill = skillMapper.toSkill(skillInputDTO);
         Skill savedSkill = skillRepository.save(skill);
-        return skillMapper.skillToSkillDTO(savedSkill);
+        return skillMapper.toSkillDTO(savedSkill);
     }
 
-    public SkillDTO updateSkill(Long id, SkillDTO skillDTO) {
+    public SkillDTO patchSkill(Long id, SkillInputDTO skillInputDTO) {
         Skill skill = skillRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Skill not found"));
+                .orElseThrow(() -> new SkillJobNotFoundException("Skill with id: " + id + " not found"));
 
-        skill.setName(skillDTO.getName());
-
+        skillMapper.updateSkillFromDto(skillInputDTO, skill);
         Skill updatedSkill = skillRepository.save(skill);
-        return skillMapper.skillToSkillDTO(updatedSkill);
+        return skillMapper.toSkillDTO(updatedSkill);
     }
 
     public void deleteSkill(Long id) {
